@@ -29,17 +29,17 @@ public class Mesh {
         for (VertexAttribute attr : geometry.getAttributes()) {
 
             glVertexAttribPointer(
-                    attr.getLocation(),
-                    attr.getComponentSize(),
+                    attr.location(),
+                    attr.componentSize(),
                     GL_FLOAT,
                     false,
                     stride,
                     (long) offset * Float.BYTES
             );
 
-            glEnableVertexAttribArray(attr.getLocation());
+            glEnableVertexAttribArray(attr.location());
 
-            offset += attr.getComponentSize();
+            offset += attr.componentSize();
         }
 
         vertexCount = geometry.getVertexCount();

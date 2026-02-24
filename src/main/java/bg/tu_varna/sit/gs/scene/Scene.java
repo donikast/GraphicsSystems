@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Scene {
-
     private final List<SceneObject> sceneObjects = new ArrayList<>();
 
     public void addSceneObject(SceneObject sceneObject) {

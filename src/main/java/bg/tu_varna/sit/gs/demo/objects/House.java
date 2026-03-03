@@ -9,19 +9,21 @@ import bg.tu_varna.sit.gs.scene.SceneObject;
 
 public class House extends SceneObject {
 
-    public House() {
-        Mesh mesh = new Mesh(DrawMode.TRIANGLES, new RectangleGeometry());
+        public House() {
+            buildHouse();
+        }
 
-        ModelElement rectangle = new ModelElement(mesh);
-        getModel().addElement(rectangle);
+        private void buildHouse() {
+            Mesh baseMesh = new Mesh(DrawMode.TRIANGLES, new RectangleGeometry());
+            ModelElement rectangle = new ModelElement(baseMesh);
+            getModel().addElement(rectangle);
 
-        Mesh mesh2 = new Mesh(DrawMode.TRIANGLES, new TriangleGeometry());
+            Mesh roofMesh = new Mesh(DrawMode.TRIANGLES, new TriangleGeometry());
+            ModelElement triangle = new ModelElement(roofMesh);
+            getModel().addElement(triangle);
+        }
 
-        ModelElement triangle = new ModelElement(mesh2);
-        getModel().addElement(triangle);
+        @Override
+        public void update() {
+        }
     }
-
-    @Override
-    public void update() {
-    }
-}

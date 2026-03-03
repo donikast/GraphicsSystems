@@ -8,6 +8,7 @@ import static org.lwjgl.opengl.GL30.glBindVertexArray;
 import static org.lwjgl.opengl.GL30.glGenVertexArrays;
 
 public class Mesh {
+
     private final int vao;
     private final VertexBuffer vbo;
     private final int vertexCount;
@@ -15,41 +16,59 @@ public class Mesh {
 
     public Mesh(DrawMode drawMode, Geometry geometry) {
         this.drawMode = drawMode;
+        this.vao = createVAO();
+        bindVAO();
+        this.vbo = createVBO(geometry);
+        configureAttributes(geometry);
+        this.vertexCount = geometry.getVertexCount();
+        unbindVAO();
+    }
 
-        vao = glGenVertexArrays();
+    private int createVAO() {
+        return glGenVertexArrays();
+    }
+
+    private void bindVAO() {
         glBindVertexArray(vao);
+    }
 
-        vbo = new VertexBuffer(geometry.getData());
-        vbo.bind();
-
-        int stride = geometry.getStride();
-
-        int offset = 0;
-
-        for (VertexAttribute attr : geometry.getAttributes()) {
-
-            glVertexAttribPointer(
-                    attr.getLocation(),
-                    attr.getComponentSize(),
-                    GL_FLOAT,
-                    false,
-                    stride,
-                    (long) offset * Float.BYTES
-            );
-
-            glEnableVertexAttribArray(attr.getLocation());
-
-            offset += attr.getComponentSize();
-        }
-
-        vertexCount = geometry.getVertexCount();
-
+    private void unbindVAO() {
         glBindVertexArray(0);
     }
 
+    private VertexBuffer createVBO(Geometry geometry) {
+        VertexBuffer buffer = new VertexBuffer(geometry.getData());
+        buffer.bind();
+        return buffer;
+    }
+
+    private void configureAttributes(Geometry geometry) {
+        int stride = geometry.getStride();
+        int offset = 0;
+
+        for (VertexAttribute attr : geometry.getAttributes()) {
+            setupAttribute(attr, stride, offset);
+            offset += attr.getComponentSize();
+        }
+    }
+
+    private void setupAttribute(VertexAttribute attr, int stride, int offset) {
+
+        glVertexAttribPointer(
+                attr.getLocation(),
+                attr.getComponentSize(),
+                GL_FLOAT,
+                false,
+                stride,
+                (long) offset * Float.BYTES
+        );
+
+        glEnableVertexAttribArray(attr.getLocation());
+    }
+
     public void render() {
-        glBindVertexArray(vao);
+        bindVAO();
         glDrawArrays(drawMode.getGlMode(), 0, vertexCount);
-        glBindVertexArray(0);
+        unbindVAO();
     }
 }

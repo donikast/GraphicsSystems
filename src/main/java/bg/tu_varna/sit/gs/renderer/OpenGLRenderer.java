@@ -32,9 +32,6 @@ public class OpenGLRenderer implements Renderer {
     public void render(Scene scene, Camera camera) {
         shader.use();
 
-       // shader.setUniform("viewMatrix", camera.getViewMatrix());
-       // shader.setUniform("projectionMatrix", camera.getProjectionMatrix());
-
          for (SceneObject sceneObject : scene.getSceneObjects()) {
             Transform transform = sceneObject.getTransform();
             shader.setUniform("modelMatrix", transform.getModelMatrix());

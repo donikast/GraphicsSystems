@@ -1,12 +1,14 @@
 package bg.tu_varna.sit.gs.app;
 
 import bg.tu_varna.sit.gs.camera.Camera;
+import bg.tu_varna.sit.gs.camera.PerspectiveCamera;
 import bg.tu_varna.sit.gs.core.Engine;
 import bg.tu_varna.sit.gs.core.Window;
 import bg.tu_varna.sit.gs.demo.SceneBuilder;
 import bg.tu_varna.sit.gs.renderer.OpenGLRenderer;
 import bg.tu_varna.sit.gs.renderer.Renderer;
 import bg.tu_varna.sit.gs.scene.Scene;
+import org.joml.Vector3f;
 
 public class App extends Engine {
     private final int width, height;
@@ -30,6 +32,14 @@ public class App extends Engine {
 
         renderer = new OpenGLRenderer();
         renderer.init();
+
+        camera = new PerspectiveCamera(
+                (float) Math.toRadians(60.0),
+                0.1f, 100f,
+                getWindow().getWidth(), getWindow().getHeight()
+        );
+
+        camera.setPosition(new Vector3f(0.0f, 0.0f, 2.0f));
     }
 
     @Override

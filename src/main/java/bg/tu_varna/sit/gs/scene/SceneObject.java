@@ -12,6 +12,7 @@ public abstract class SceneObject {
     }
 
     public void render(ShaderProgram shader) {
+        shader.setUniform("modelMatrix", transform.getModelMatrix());
         model.render(shader);
     }
 
